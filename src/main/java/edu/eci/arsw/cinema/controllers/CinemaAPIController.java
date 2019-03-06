@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 import javax.xml.ws.http.HTTPException;
 
+import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -91,34 +92,33 @@ public class CinemaAPIController {
     }
     
     
-    /**
-    @RequestMapping(value="cinema/{name}",method =RequestMethod.POST)	
-    public ResponseEntity<?> registFunction(@RequestBody CinemaFunction o,@PathVariable String name){
-        try {
-            //curl -i -X POST -HContent-Type:application/json -HAccept:application/json http://localhost:8080/cinema/cinemaX -d '{{"movie":{"name":"Glass","genre":"Heroes"},"seats":[[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true]],"date":"2018-12-18 15:30"}}'
-            System.out.println("Entre a registrar");
-            cs.addFunction(name, o);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }catch(Exception ex){
-            Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
-        }
-  
-    } 
-   */
-   /** 
-    @PostMapping(method = RequestMethod.POST,value="/{name}")	
-    public ResponseEntity<?> manejadorPostRecursoXX(@RequestBody CinemaFunction o,@PathVariable String name){
-    	try {
-            //curl -i -X POST -HContent-Type:application/json -HAccept:application/json http://localhost:8080/cinema/cinemaX -d '{{"movie":{"name":"Glass","genre":"Heroes"},"seats":[[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true]],"date":"2018-12-18 15:30"}}'
-            System.out.println("Entre a registrar");
-            cs.addFunction(name, o);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }catch(Exception ex){
-            Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
-        }
-    }
-    **/
     
+    @RequestMapping(value="/{cine}",method =RequestMethod.POST)	
+    public ResponseEntity<?> registFunction(@RequestBody CinemaFunction o,@PathVariable String cine){
+        try {
+            System.out.println("Entre a registrar");
+            cs.addFunction(cine, o);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch(HTTPException ex){
+            Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.toString(),HttpStatus.valueOf(ex.getStatusCode()));
+        }  
+    }
+    
+
+    //curl -i -X POST -HContent-Type:application/json -HAccept:application/json http://localhost:8080/cinema/cinemaX/ -d '{"movie":{"name":"prueba1","genre":"Test"},"date":"2018-12-18 15:30"}'
+    
+
+
+    @RequestMapping(value="/{cine}",method =RequestMethod.PUT)	
+    public ResponseEntity<?> updateFunction(@PathVariable String cine,@RequestBody CinemaFunction o){
+    	 try {
+    		 //cs.addFunction(cine, o);
+             return new ResponseEntity<>(HttpStatus.CREATED);
+         }catch(Exception ex){
+             Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
+             return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+         }  
+    }
+
 }

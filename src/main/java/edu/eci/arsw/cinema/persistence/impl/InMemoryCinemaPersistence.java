@@ -171,6 +171,14 @@ public class InMemoryCinemaPersistence implements CinemaPersitence{
         Cinema c=cinemas.get(name);
         c.getFunctions().add(func);
     }
+
+	@Override
+	public List<Movie> getFunctionsbyCinema(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
+    
 	
 	
 	

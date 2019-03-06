@@ -86,4 +86,10 @@ public class FilterByGenderToo implements CinemaPersitence{
     public void addFunction(String name, CinemaFunction func) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+	@Override
+	public List<Movie> getFunctionsbyCinema(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
