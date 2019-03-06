@@ -82,8 +82,8 @@ public class InMemoryCinemaPersistence implements CinemaPersitence{
 		List<CinemaFunction> funciones=new ArrayList<>();
 		Cinema c=cinemas.get(cinema);
 		for(CinemaFunction cf:c.getFunctions()){
-                    System.out.println("--------------------------------------------------");
-                    System.out.println(cf.getDate()+" Esta es la fecha parametro "+date+"  "+cf.getDate().equals(date) );
+                    //System.out.println("--------------------------------------------------");
+                    //System.out.println(cf.getDate()+" Esta es la fecha parametro "+date+"  "+cf.getDate().equals(date) );
 			if(cf.getDate().equals(date)){
 				funciones.add(cf);
 
@@ -156,8 +156,8 @@ public class InMemoryCinemaPersistence implements CinemaPersitence{
         CinemaFunction funciones=new CinemaFunction();
         Cinema c=cinemas.get(cinema);
         for(CinemaFunction cf:c.getFunctions()){
-            System.out.println("--------------------------------------------------");
-            System.out.println(cf.getDate()+" Esta es la fecha parametro "+date+" "+cf.getMovie().getName().equals(movie) );
+            //System.out.println("--------------------------------------------------");
+            //System.out.println(cf.getDate()+" Esta es la fecha parametro "+date+" "+cf.getMovie().getName().equals(movie) );
                 if(cf.getDate().equals(date) && cf.getMovie().getName().equals(movie)){
                         funciones=cf;
 
@@ -177,11 +177,24 @@ public class InMemoryCinemaPersistence implements CinemaPersitence{
 		// TODO Auto-generated method stub
 		return null;
 	}
-    
-    
-	
-	
-	
-	
+
+	@Override
+	public void actualizar(String cine, CinemaFunction o) {
+		Boolean esta=false;
+		if (cinemas.get(cine)!=null) {
+			Cinema c=cinemas.get(cine);
+			for(CinemaFunction cf:c.getFunctions()) {
+				if(cf.getMovie().getName().equals(o.getMovie().getName())) {
+					cf.setDate(o.getDate());
+					esta=true;
+				}
+			}
+		}
+		if(!esta) {
+			addFunction(cine, o);
+		}                
+		                             
+				
+	}
 	
 }

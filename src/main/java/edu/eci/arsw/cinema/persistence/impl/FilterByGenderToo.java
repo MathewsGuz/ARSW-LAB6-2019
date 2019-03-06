@@ -92,4 +92,10 @@ public class FilterByGenderToo implements CinemaPersitence{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void actualizar(String cine, CinemaFunction o) {
+		// TODO Auto-generated method stub
+		
+	}
 }

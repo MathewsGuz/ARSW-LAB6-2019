@@ -85,4 +85,6 @@ public interface CinemaPersitence {
     public void addFunction(String name,CinemaFunction func);
     
     public List<Movie> getFunctionsbyCinema(String name);
+
+	public void actualizar(String cine, CinemaFunction o);
 }

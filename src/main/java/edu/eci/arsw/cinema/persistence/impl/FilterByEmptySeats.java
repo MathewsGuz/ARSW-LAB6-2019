@@ -87,7 +87,11 @@ public class FilterByEmptySeats implements CinemaPersitence{
 
 	@Override
 	public List<Movie> getFunctionsbyCinema(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public void actualizar(String cine, CinemaFunction o) {
+		throw new UnsupportedOperationException("Not supported yet.");		
 	}
 }

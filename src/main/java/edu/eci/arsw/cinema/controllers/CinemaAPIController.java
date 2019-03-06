@@ -113,7 +113,7 @@ public class CinemaAPIController {
     @RequestMapping(value="/{cine}",method =RequestMethod.PUT)	
     public ResponseEntity<?> updateFunction(@PathVariable String cine,@RequestBody CinemaFunction o){
     	 try {
-    		 //cs.addFunction(cine, o);
+    		 cs.actualizar(cine,o);
              return new ResponseEntity<>(HttpStatus.CREATED);
          }catch(Exception ex){
              Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);

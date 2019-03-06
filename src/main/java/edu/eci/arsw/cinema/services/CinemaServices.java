@@ -72,6 +72,13 @@ public class CinemaServices {
     public void addFunction(String cinema,CinemaFunction func){
         cps.addFunction(cinema, func);
     }
+
+	public void actualizar(String cine, CinemaFunction o) {
+		cps.actualizar(cine,o);
+		
+	}
+
+	
     
     	
 
