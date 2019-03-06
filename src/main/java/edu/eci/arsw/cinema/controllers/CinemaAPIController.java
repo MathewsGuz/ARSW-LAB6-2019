@@ -5,9 +5,8 @@
  */
 package edu.eci.arsw.cinema.controllers;
 
+import edu.eci.arsw.cinema.model.CinemaFunction;
 import edu.eci.arsw.cinema.services.CinemaServices;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -79,6 +79,20 @@ public class CinemaAPIController {
             Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("Error bla bla bla",HttpStatus.NOT_FOUND);
         }      
+    }
+    
+    @RequestMapping(value="cinema/{name}",method =RequestMethod.POST)	
+    public ResponseEntity<?> registFunction(@RequestBody CinemaFunction o,@PathVariable String name){
+        try {
+            //curl -i -X POST -HContent-Type:application/json -HAccept:application/json http://localhost:8080/cinema/cinemaX -d '{{"movie":{"name":"Glass","genre":"Heroes"},"seats":[[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true]],"date":"2018-12-18 15:30"}}'
+            System.out.println("Entre a registrar");
+            cs.addFunction(name, o);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch(Exception ex){
+            Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+        }
+  
     }
         
     

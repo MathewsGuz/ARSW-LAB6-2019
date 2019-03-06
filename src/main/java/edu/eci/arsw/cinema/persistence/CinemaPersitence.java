@@ -82,4 +82,5 @@ public interface CinemaPersitence {
     
     public CinemaFunction getFunctionsbyCinemaDateAndMovie(String cinema, String date,String movie);
     
+    public void addFunction(String name,CinemaFunction func);
 }

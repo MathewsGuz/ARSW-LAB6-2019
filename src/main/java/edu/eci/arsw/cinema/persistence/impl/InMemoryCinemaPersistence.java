@@ -165,6 +165,12 @@ public class InMemoryCinemaPersistence implements CinemaPersitence{
         }
         return funciones;
     }
+
+    @Override
+    public void addFunction(String name, CinemaFunction func) {
+        Cinema c=cinemas.get(name);
+        c.getFunctions().add(func);
+    }
 	
 	
 	

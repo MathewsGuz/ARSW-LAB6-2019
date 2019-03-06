@@ -69,6 +69,10 @@ public class CinemaServices {
         return cps.getFunctionsbyCinemaDateAndMovie(cinema, date, movie);
     }
     
+    public void addFunction(String cinema,CinemaFunction func){
+        cps.addFunction(cinema, func);
+    }
+    
     	
 
 

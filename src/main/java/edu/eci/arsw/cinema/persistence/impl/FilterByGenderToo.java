@@ -76,4 +76,14 @@ public class FilterByGenderToo implements CinemaPersitence{
     public Set<Cinema> getAllCinema() throws CinemaPersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public CinemaFunction getFunctionsbyCinemaDateAndMovie(String cinema, String date, String movie) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addFunction(String name, CinemaFunction func) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
