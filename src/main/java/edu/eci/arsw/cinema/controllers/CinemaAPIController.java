@@ -6,15 +6,24 @@
 package edu.eci.arsw.cinema.controllers;
 
 import edu.eci.arsw.cinema.model.CinemaFunction;
+import edu.eci.arsw.cinema.persistence.CinemaException;
+import edu.eci.arsw.cinema.persistence.CinemaPersistenceException;
 import edu.eci.arsw.cinema.services.CinemaServices;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.xml.ws.http.HTTPException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,38 +43,38 @@ public class CinemaAPIController {
     CinemaServices cs;
     
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> GetCinemas(){
-        try {
-            
+    public ResponseEntity<?> GetCinemas() throws CinemaPersistenceException{
+        try {            
             return new ResponseEntity<>(cs.getAllCinemas(),HttpStatus.ACCEPTED);
-        } catch (Exception ex) {
+        } catch (HTTPException ex) {
             Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("Error bla bla bla",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(ex.toString(),HttpStatus.valueOf(ex.getStatusCode()));
         }      
     }
     
     
 //    @RequestMapping(method = RequestMethod.GET)
     @GetMapping("/{name}")
-    public ResponseEntity<?> GetCinemaByName(@PathVariable String name){
-        
+    public ResponseEntity<?> GetCinemaByName(@PathVariable String name) throws CinemaException, CinemaPersistenceException {        
         try {
             return new ResponseEntity<>(cs.getCinemaByName(name),HttpStatus.ACCEPTED);
-        } catch (Exception ex) {
-            Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
-            // probar arreglar con esto HttpStatus::is4xxServerError,response ->...
-            return new ResponseEntity<>("Error bla bla bla",HttpStatus.NOT_FOUND);
+        } catch (HTTPException ex) {
+            Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);            
+            return new ResponseEntity<>(ex.toString(),HttpStatus.valueOf(ex.getStatusCode()));
         }      
     }
     
     @GetMapping("/{name}/{date}")
-    public ResponseEntity<?> GetCinemaByNameAndDate(@PathVariable String name,@PathVariable String date){
-        
+    public ResponseEntity<?> GetCinemaByNameAndDate(@PathVariable String name,@PathVariable String date){        
         try {
-            return new ResponseEntity<>(cs.getFunctionsbyCinemaAndDate(name, date),HttpStatus.ACCEPTED);
-        } catch (Exception ex) {
+        	List<CinemaFunction> l=cs.getFunctionsbyCinemaAndDate(name, date);        	
+        	if(l.equals(new ArrayList<>())) {
+        		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        	}else
+        		return new ResponseEntity<>(cs.getFunctionsbyCinemaAndDate(name, date),HttpStatus.ACCEPTED);
+        } catch (HTTPException ex) {
             Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("Error bla bla bla",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(ex.toString(),HttpStatus.valueOf(ex.getStatusCode()));
         }      
     }
     
@@ -75,12 +84,14 @@ public class CinemaAPIController {
         
         try {
             return new ResponseEntity<>(cs.getFunctionsbyCinemaDateAndMovie(name, date, moviename),HttpStatus.ACCEPTED);
-        } catch (Exception ex) {
+        } catch (HTTPException ex) {
             Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("Error bla bla bla",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(ex.toString(),HttpStatus.valueOf(ex.getStatusCode()));
         }      
     }
     
+    
+    /**
     @RequestMapping(value="cinema/{name}",method =RequestMethod.POST)	
     public ResponseEntity<?> registFunction(@RequestBody CinemaFunction o,@PathVariable String name){
         try {
@@ -93,8 +104,21 @@ public class CinemaAPIController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
         }
   
+    } 
+   */
+   /** 
+    @PostMapping(method = RequestMethod.POST,value="/{name}")	
+    public ResponseEntity<?> manejadorPostRecursoXX(@RequestBody CinemaFunction o,@PathVariable String name){
+    	try {
+            //curl -i -X POST -HContent-Type:application/json -HAccept:application/json http://localhost:8080/cinema/cinemaX -d '{{"movie":{"name":"Glass","genre":"Heroes"},"seats":[[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true],[true,true,true,true,true,true,true,true,true,true,true,true]],"date":"2018-12-18 15:30"}}'
+            System.out.println("Entre a registrar");
+            cs.addFunction(name, o);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch(Exception ex){
+            Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); 
+        }
     }
-        
+    **/
     
-   
 }
